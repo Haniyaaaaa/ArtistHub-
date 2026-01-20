@@ -1,0 +1,9 @@
+{
+  "name": "artists-hub-shared",
+  "version": "1.0.0",
+  "description": "Shared dependencies for Artists Hub",
+  "dependencies": {
+    "tailwindcss": "^3.3.0",
+    "bootstrap": "^5.3.0"
+  }
+}

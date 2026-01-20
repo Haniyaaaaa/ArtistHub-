@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtistsHub - Creative Portfolio Platform</title>
+    <meta name="description" content="Discover exceptional artists in web development, architecture, and fashion design">
+    <link rel="icon" type="image/png" href="../logo/logo.png">
+    <link rel="stylesheet" href="index.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #E2FCEF;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #9B287B, #5C164E);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #5C164E, #402039);
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, #9B287B, #5C164E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Glass morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <noscript>This site requires JavaScript.</noscript>
+    
+    <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/50 border-b border-black/5">
+        <div class="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+            <a href="#/" class="flex items-center gap-2">
+                <img src="../logo/logo.png" alt="ArtistsHub logo" class="h-10 w-10 rounded-lg object-contain shadow-md" loading="lazy">
+                <span class="font-extrabold text-xl gradient-text">ArtistsHub</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#/" class="text-sm font-semibold theme-link transition-colors">Home</a>
+                <a href="#/artists" class="text-sm font-semibold theme-link transition-colors">Artists</a>
+                <a href="#/about" class="text-sm font-semibold theme-link transition-colors">About</a>
+                <a href="#/contact" class="text-sm font-semibold theme-link transition-colors">Contact</a>
+                <a href="#/signup" class="btn-primary px-5 py-2 text-sm">Sign up</a>
+            </nav>
+            <button id="mobileToggle" aria-label="Open menu" class="md:hidden p-2">
+                <i class="bi bi-list text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden px-8 pb-4 flex-col gap-3 bg-white/80">
+            <a href="#/" class="py-2 text-dark">Home</a>
+            <a href="#/artists" class="py-2 text-dark">Artists</a>
+            <a href="#/about" class="py-2 text-dark">About</a>
+            <a href="#/contact" class="py-2 text-dark">Contact</a>
+            <a href="#/signup" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-xl font-bold text-sm text-center">Sign up</a>
+        </div>
+    </header>
+
+    <main id="app" class="max-w-7xl mx-auto py-20 px-8"></main>
+
+    <footer class="max-w-7xl mx-auto px-8 pb-10 text-sm text-dark/60">© <span id="year"></span> ArtistsHub. All rights reserved.</footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 hidden items-center justify-center bg-black/80 z-50">
+        <button id="lightboxClose" aria-label="Close" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+        <button id="lightboxPrev" aria-label="Previous" class="absolute left-4 text-white text-3xl">&#10094;</button>
+        <img id="lightboxImg" alt="Expanded artwork" class="max-w-[92vw] max-h-[92vh] rounded-xl shadow-2xl object-contain" />
+        <button id="lightboxNext" aria-label="Next" class="absolute right-4 text-white text-3xl">&#10095;</button>
+    </div>
+
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { primary:'#9B287B', secondary:'#5C164E', accent:'#402039', neutral:'#E2FCEF', dark:'#170F11' }, fontFamily: { sans:['Inter','system-ui','sans-serif'] } } }
+        }
+    </script>
+    <script>
+        const topArtists = [
+            {
+                slug: 'Julia-Tverskaya',
+                name: 'Julia Tverskaya',
+                role: 'Graphic Designer',
+                bio: 'Julia Tverskaya is a visual storyteller who believes that great design speaks before words do. With a passion for blending minimalism and emotion, she transforms abstract concepts into clean, meaningful visuals that stay with you. Her work reflects an intuitive balance between structure and spontaneity that from branding to editorial layouts, every project carries a quiet sense of elegance and intention.',
+                heroImage: 'https://i.pinimg.com/1200x/15/29/de/1529dec3f7e010bd71a3b02f4fe9e156.jpg',
+                gallery: [
+                    'https://i.pinimg.com/736x/54/51/71/54517140c201640b791e587b1e3834a9.jpg',
+                    'https://i.pinimg.com/1200x/7f/a9/37/7fa9378cee03c1859c4f931e9c0978de.jpg',
+                    'https://i.pinimg.com/736x/8c/02/55/8c02550d749f778ded3b5f840cda9901.jpg',
+                    'https://i.pinimg.com/1200x/0e/fd/66/0efd6686f323e093ef85b49b473d4043.jpg',
+                    'https://i.pinimg.com/1200x/96/86/da/9686dabe05982ac12260dedf1c65ec45.jpg',
+                    'https://i.pinimg.com/736x/3d/11/a4/3d11a4c0213a1f685a7e8a8ac4dc00ad.jpg',
+                    'https://i.pinimg.com/736x/9a/f9/aa/9af9aa1f5c6279291e586ca160d37ff2.jpg',
+                    'https://i.pinimg.com/736x/ce/63/8e/ce638efeea656a6c07bd34ef3fc9dfb5.jpg',
+                    'https://i.pinimg.com/736x/d0/46/4b/d0464b3106b880fb6f2d60cff44a3f68.jpg'
+                ]
+            },
+            {
+                slug: 'Mark-Nielsen',
+                name: 'Mark Nielsen',
+                role: 'Graphic Designer',
+                bio: 'Mark Nielsen’s design philosophy centers on bold simplicity and visual rhythm. With a strong eye for composition, typography, and color, he creates brand identities that feel both striking and timeless. His process is deeply collaborative built on understanding stories, distilling meaning, and translating ideas into visuals that resonate. Every piece of his work bridges creativity and clarity, form and feeling.',
+                // Ensure this file sits next to Main/index.html. Spaces are URL-encoded.
+                heroImage: 'double%20exposure.png',
+                gallery: [
+                    'https://i.pinimg.com/736x/39/c3/16/39c3167525cff34215bda3484505050d.jpg',
+                    'https://i.pinimg.com/1200x/4b/9c/82/4b9c82fe950bf04e8ba708b3cb219a46.jpg',
+                    'https://i.pinimg.com/736x/fa/80/71/fa80713aad0b4a22df17784ce34a79cf.jpg',
+                    'https://i.pinimg.com/736x/89/44/45/894445e3e4909c78afb53d85958c9ada.jpg',
+                    'https://i.pinimg.com/736x/74/d8/82/74d882919b2130b786902aafb46de0cb.jpg',
+                    'https://i.pinimg.com/736x/44/ef/fe/44effeec510e7c19ed52719bc898c2c0.jpg',
+                    'https://i.pinimg.com/736x/95/71/c0/9571c09ee815c0e2d23a7b69fc0acd04.jpg',
+                    'https://i.pinimg.com/736x/8d/3c/b6/8d3cb6c4d5550b17d734228407613c56.jpg',
+                    'https://i.pinimg.com/736x/49/f6/d1/49f6d18632caebf40f1fbb6a7a5ca901.jpg'
+                ]
+            },
+            {
+                slug: 'Isaac-Kohen',
+                name: 'Isaac Kohen',
+                role: 'Architect',
+                bio: 'Isaac Kohen approaches architecture as a dialogue between art, function, and human experience. His designs explore how light, space, and material shape emotion and movement within a structure. Whether crafting sleek modern facades or intimate interiors, Isaac’s work is grounded in the belief that buildings should breathe, reflecting both the personality of their inhabitants and the rhythm of their environment.',
+                heroImage: 'https://i.pinimg.com/736x/75/24/8f/75248fd046bf0bea3afa1e5f1475f8a7.jpg',
+                gallery: [
+                    'https://i.pinimg.com/736x/2e/98/c2/2e98c2925d80d5624675e50fce39c08c.jpg',
+                    'https://i.pinimg.com/736x/26/b5/bb/26b5bb7547ba7a222943eab475bbe79f.jpg',
+                    'https://i.pinimg.com/736x/ef/d1/67/efd167e367a7e2b7ca56a96d9aff2101.jpg',
+                    'https://i.pinimg.com/736x/95/50/6f/95506f7d4be05f197fb93777b98e6aff.jpg',
+                    'https://i.pinimg.com/736x/dd/2e/fd/dd2efd60e62c7d011072ec0516445341.jpg',
+                    'https://i.pinimg.com/736x/4d/e1/e0/4de1e0750c3f796659e4018b318dfcde.jpg',
+                    'https://i.pinimg.com/736x/a0/69/9f/a0699f1d1d0b82cf28bb6d2b3f9730e9.jpg',
+                    'https://i.pinimg.com/736x/c8/80/df/c880dfc1d00ab4bac4bece748a0a8094.jpg',
+                    'https://i.pinimg.com/736x/0d/2d/7d/0d2d7d8a9e16841c51ee6642eabc8fee.jpg'
+                ]
+            },
+            {
+            slug: 'Alejandro-Rios-Calera',
+                name: 'Alejandro Rios Calera',
+                role: 'Fashion Designer',
+                bio: 'Alejandro Rios Calera sees fashion as a form of storytelling, a language woven through texture, silhouette, and movement. Drawing inspiration from culture, emotion, and everyday life, his collections blend modern design with timeless craftsmanship. Alejandro’s work celebrates individuality and presence, transforming each piece into a wearable expression of art. His designs don’t just dress people and they empower them.',
+                heroImage: 'https://i.pinimg.com/1200x/39/5a/0e/395a0e21c7f4679422b16c1772b641d0.jpg',
+                gallery: [
+                    'https://i.pinimg.com/736x/ff/e5/72/ffe5727b6097180ea8983e56bd147371.jpg',
+                    'https://i.pinimg.com/1200x/73/34/cc/7334cc7248731aad50b6adf2e49ca721.jpg',
+                    'https://i.pinimg.com/736x/39/11/c1/3911c1353a63e8e50a747f47b1091bd9.jpg',
+                    'https://i.pinimg.com/736x/8b/58/e2/8b58e2dd24a27f2de25e989a657a1071.jpg',
+                    'https://i.pinimg.com/736x/0d/43/0c/0d430c65e8d79d089641f235f9388e3b.jpg',
+                    'https://i.pinimg.com/736x/cf/82/15/cf8215d936979cf0b1ed224783c7d2b6.jpg',
+                    'https://i.pinimg.com/736x/34/01/b1/3401b155549b93d25e08775181168f32.jpg',
+                    'https://i.pinimg.com/1200x/9e/87/f7/9e87f78f6bd4373426cf49f3e5ccaeca.jpg',
+                    'https://i.pinimg.com/1200x/f4/f6/dc/f4f6dc38e82b9e5d83e719277d31138c.jpg'
+
+                ]
+            },
+            {
+            slug: 'Daniel-Stempel',
+                name: 'Daniel Stempel',
+                role: 'Textile Designer',
+                bio: 'Daniel’s world is woven with pattern, texture, and imagination. As a textile designer, he explores how fabric can hold both history and innovation, blending traditional weaving methods with contemporary aesthetics. His designs often take cues from nature’s geometry and subtle color harmonies, resulting in textiles that feel both organic and modern. For Daniel, every thread tells a story, and every surface invites touch and connection.',
+                heroImage: 'https://i.pinimg.com/1200x/95/93/73/959373320687ae8e6d6498604b5d1dca.jpg',
+                gallery: [
+                    'https://i.pinimg.com/736x/19/00/c8/1900c81de22b39568a91e9f8a4d7d3ab.jpg',
+                    'https://i.pinimg.com/736x/92/3e/94/923e9455c343d477911cb053a6518ed5.jpg',
+                    'https://i.pinimg.com/736x/ae/9c/e0/ae9ce044e0ce19a9e7294bd359a44b6d.jpg',
+                    'https://i.pinimg.com/736x/06/ac/d8/06acd8ddfc9ed5e292ed7c55f4f1e1af.jpg',
+                    'https://i.pinimg.com/1200x/b7/d7/db/b7d7db5c4ee6d06cc0c3193d3f2f0e78.jpg',
+                    'https://i.pinimg.com/736x/f1/f7/38/f1f73896755ddab6c94a27c2c1ed0d18.jpg',
+                    'https://i.pinimg.com/736x/e5/00/bc/e500bc129cd64af79db1b7ded79c16fe.jpg',
+                    'https://i.pinimg.com/1200x/9f/75/23/9f75238be38d8d388e0d8b39425b6cdc.jpg',
+                    'https://i.pinimg.com/1200x/0d/5c/ff/0d5cff92c8466551853f9864baba4c14.jpg'
+
+
+                ]
+            },
+        ]
+        // Expose for lightbox carousel
+        window.topArtists = topArtists
+        window.topArtistsForLightbox = topArtists.map(a => a.heroImage)
+
+        const app = document.getElementById('app')
+        const year = document.getElementById('year')
+        year.textContent = new Date().getFullYear()
+        const mobileToggle = document.getElementById('mobileToggle')
+        const mobileMenu = document.getElementById('mobileMenu')
+        mobileToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden') })
+
+        function HomeView(){ return `
+            <section class="text-center space-y-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold gradient-text tracking-tight">Discover and Hire Exceptional Artists</h1>
+                <p class="text-lg text-dark/80 max-w-2xl mx-auto">Connect with passionate artists who bring your ideas to life. Discover unique talents and share your own creative journey</p>
+                <div class="flex gap-3 justify-center">
+                    <a href="#/signup" class="btn-primary">Get Started</a>
+                    <a href="#/artists" class="btn-primary">Browse Artists</a>
+                </div>
+            </section>
+            <section class="mt-12 grid md:grid-cols-2 gap-8 items-stretch">
+                <div class="overflow-hidden rounded-3xl shadow-2xl relative h-[320px] md:h-[480px]" id="carousel">
+                    ${topArtists.map((a,i)=>`<img ${i>0?'loading=\"lazy\"':''} data-viewable data-set=\"heroes\" data-index=\"${i}\" src=\"${a.heroImage}\" alt=\"${a.name}\" class=\"absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i===0?'opacity-100':'opacity-0'} cursor-zoom-in\">`).join('')}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 flex gap-2">${topArtists.map((_,i)=>`<button data-idx="${i}" class="h-2 ${i===0?'w-6 bg-white':'w-2 bg-white/60'} rounded-full transition-all dot"></button>`).join('')}</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 flex flex-col justify-between" id="carouselInfo">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-extrabold gradient-text mb-2">${topArtists[0].name}</h2>
+                        <p class="role-text font-semibold mb-4">${topArtists[0].role}</p>
+                        <p class="text-dark/80 leading-relaxed">${topArtists[0].bio}</p>
+                    </div>
+                    <div class="pt-6">
+                        <a href="#/artists/${topArtists[0].slug}" class="inline-flex items-center gap-2 theme-link font-semibold hover:underline">See more <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </section>` }
+
+        function ArtistsView(){ return `
+            <h2 class="text-3xl font-extrabold gradient-text mb-8">Meet the Visionaries</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${topArtists.map((a,i)=>`<a href="#/artists/${a.slug}" class="card group block rounded-2xl overflow-hidden border border-black/5 bg-white/70"><div class="h-48 overflow-hidden"><img loading=\"lazy\" data-viewable data-set=\"heroes\" data-index=\"${i}\" src=\"${a.heroImage}\" alt=\"${a.name}\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform cursor-zoom-in\" /></div><div class=\"p-4\"><h3 class=\"font-bold\">${a.name}</h3><div class=\"text-sm role-text\">${a.role}</div><p class=\"mt-2 text-sm text-dark/80\">${a.bio}</p></div></a>`).join('')}
+            </div>` }
+
+        function ArtistDetailView(slug){
+            const a = topArtists.find(x=>x.slug===slug)
+            if(!a) return `<p class="text-dark">Artist not found. <a class="text-primary underline" href="#/artists">Back</a></p>`
+            return `
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <img src="${a.heroImage}" alt="${a.name}" class="w-full h-[320px] md:h-[480px] object-cover rounded-3xl shadow-2xl" />
+                    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8">
+                        <h1 class="text-4xl font-extrabold gradient-text">${a.name}</h1>
+                        <p class="role-text font-semibold mt-1">${a.role}</p>
+                        <p class="mt-4 text-dark/80 leading-relaxed">${a.bio}</p>
+                        <div class="mt-6 flex gap-3">
+                            <a href="#/contact" class="btn-primary px-6 py-3">Hire ${a.name}</a>
+                            <a href="#/artists" class="btn-primary px-6 py-3">Back to Artists</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h2 class="text-2xl font-bold mb-4">Gallery</h2>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${a.gallery.map((src,i)=>`<img loading=\"lazy\" data-viewable data-set=\"gallery\" data-slug=\"${a.slug}\" data-index=\"${i}\" src=\"${src}\" alt=\"${a.name} work ${i+1}\" class=\"w-full h-56 object-cover rounded-2xl border border-black/5 cursor-zoom-in\" />`).join('')}</div>
+                </div>`
+        }
+
+        function AboutView(){ return `<div class="prose max-w-none"><h1 class="gradient-text text-4xl font-extrabold">About ArtistsHub</h1><p>ArtistsHub connects clients with exceptional talent across illustration, architecture, and fashion.</p><p>We keep artwork front and center with a clean, accessible, and fast interface.</p></div>` }
+        function ContactView(){ return `<div class="grid md:grid-cols-2 gap-8 items-start"><div class="space-y-4"><h1 class="text-3xl font-extrabold gradient-text">Contact</h1><p class="text-dark/80">Have a project in mind? We'll connect you with the right artist.</p><div class="rounded-2xl p-6 bg-white/10 backdrop-blur-md border border-white/20"><div class="flex items-center gap-3 text-dark"><i class="bi bi-envelope"></i> info@artistshub.gmail.com</div><div class="flex items-center gap-3 text-dark mt-2"><i class="bi bi-discord"></i> ArtistsHub Community</div></div></div><form class="rounded-2xl p-6 bg-white/80 border border-black/5 space-y-4"><div><label class="block text-sm font-semibold">Name</label><input class="mt-1 w-full border border-black/10 rounded-xl p-3 bg-white" placeholder="Your name" /></div><div><label class="block text-sm font-semibold">Email</label><input type="email" class="mt-1 w-full border border-black/10 rounded-xl p-3 bg-white" placeholder="you@example.com" /></div><div><label class="block text-sm font-semibold">Message</label><textarea class="mt-1 w-full border border-black/10 rounded-xl p-3 h-28 bg-white" placeholder="Tell us about your project..."></textarea></div><button type="button" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-2xl font-bold">Send</button></form></div>` }
+        function SignupView(){ return `<div class="max-w-3xl mx-auto"><h1 class="text-3xl font-extrabold gradient-text">Join ArtistsHub</h1><p class="text-dark/80 mt-2">Choose your role to tailor your experience.</p><div class="mt-6 grid sm:grid-cols-2 gap-4" id="roleBtns"><button data-role="creator" class="rounded-2xl p-5 border border-primary bg-white text-left"><div class="font-bold">I am a Creator</div><div class="text-sm text-dark/70">Upload your work, build a portfolio, get hired.</div></button><button data-role="client" class="rounded-2xl p-5 border border-black/10 bg-white/70 text-left"><div class="font-bold">I want to Hire</div><div class="text-sm text-dark/70">Discover artists and commission projects.</div></button></div><form class="mt-6 rounded-2xl p-6 bg-white/80 border border-black/5 space-y-4" id="signupForm" data-role="creator"><div class="grid sm:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold">Full name</label><input class="mt-1 w-full border border-black/10 rounded-xl p-3 bg-white" placeholder="Your name" /></div><div><label class="block text-sm font-semibold">Email</label><input type="email" class="mt-1 w-full border border-black/10 rounded-xl p-3 bg-white" placeholder="you@gmail.com" /></div></div><div id="creatorOnly"><label class="block text-sm font-semibold">Portfolio URL</label><input class="mt-1 w-full border border-black/10 rounded-xl p-3 bg-white" placeholder="https://" /></div><div id="clientOnly" class="hidden"><label class="block text-sm font-semibold">Project brief</label><textarea class="mt-1 w-full border border-black/10 rounded-xl p-3 h-28 bg-white" placeholder="Describe what you need..."></textarea></div><button type="button" class="btn-primary px-6 py-3">Create account</button></form></div>` }
+
+        function parseHash(){ const raw=location.hash.replace(/^#/, '')||'/'; const seg=raw.split('/').filter(Boolean); if(seg.length===0) return {path:'/'}; if(seg[0]==='artists'&&seg.length===1) return {path:'/artists'}; if(seg[0]==='artists'&&seg[1]) return {path:'/artists/:slug', slug:seg[1]}; if(seg[0]==='about') return {path:'/about'}; if(seg[0]==='contact') return {path:'/contact'}; if(seg[0]==='signup') return {path:'/signup'}; return {path:'/'} }
+        function render(){ const r=parseHash(); let html=''; if(r.path==='/') html=HomeView(); else if(r.path==='/artists') html=ArtistsView(); else if(r.path==='/artists/:slug') html=ArtistDetailView(r.slug); else if(r.path==='/about') html=AboutView(); else if(r.path==='/contact') html=ContactView(); else if(r.path==='/signup') html=SignupView(); else html=HomeView(); app.innerHTML=html; if(r.path==='/') initCarousel(); if(r.path==='/signup') initSignupRole(); initLightbox(); }
+
+        // Simple image lightbox
+        function initLightbox(){
+            const lightbox = document.getElementById('lightbox')
+            const lightboxImg = document.getElementById('lightboxImg')
+            const closeBtn = document.getElementById('lightboxClose')
+            const prevBtn = document.getElementById('lightboxPrev')
+            const nextBtn = document.getElementById('lightboxNext')
+            let currentSet = null
+            let currentSlug = null
+            let currentIndex = 0
+
+            const open = (src, set, index, slug) => {
+                currentSet = set; currentIndex = index || 0; currentSlug = slug || null
+                lightboxImg.src = src
+                lightbox.classList.remove('hidden')
+                lightbox.classList.add('flex')
+            }
+
+            const close = () => { lightbox.classList.add('hidden'); lightbox.classList.remove('flex'); lightboxImg.src=''; currentSet=null; currentSlug=null; currentIndex=0 }
+
+            const step = (dir) => {
+                if (!currentSet) return
+                if (currentSet === 'heroes') {
+                    const list = window.topArtistsForLightbox || []
+                    if (!list.length) return
+                    currentIndex = (currentIndex + dir + list.length) % list.length
+                    lightboxImg.src = list[currentIndex]
+                } else if (currentSet === 'gallery') {
+                    const artist = (window.topArtists || []).find(a => a.slug === currentSlug)
+                    if (!artist) return
+                    const list = artist.gallery
+                    currentIndex = (currentIndex + dir + list.length) % list.length
+                    lightboxImg.src = list[currentIndex]
+                }
+            }
+
+            document.querySelectorAll('[data-viewable]').forEach((img) => {
+                img.addEventListener('click', () => {
+                    const set = img.getAttribute('data-set')
+                    const idx = Number(img.getAttribute('data-index') || 0)
+                    const slug = img.getAttribute('data-slug')
+                    open(img.getAttribute('src'), set, idx, slug)
+                })
+            })
+
+            closeBtn.addEventListener('click', close)
+            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close() })
+            nextBtn.addEventListener('click', () => step(1))
+            prevBtn.addEventListener('click', () => step(-1))
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') close()
+                if (e.key === 'ArrowRight') step(1)
+                if (e.key === 'ArrowLeft') step(-1)
+            })
+        }
+
+        function initCarousel(){ const slides=[...document.querySelectorAll('#carousel img')]; const dots=[...document.querySelectorAll('#carousel .dot')]; let idx=0; const info=document.getElementById('carouselInfo'); function show(i){ slides.forEach((el,j)=>el.classList.toggle('opacity-100', i===j)); slides.forEach((el,j)=>el.classList.toggle('opacity-0', i!==j)); dots.forEach((d,j)=>{ d.classList.toggle('w-6', i===j); d.classList.toggle('bg-white', i===j); d.classList.toggle('w-2', i!==j); d.classList.toggle('bg-white/60', i!==j); }); const a=topArtists[i]; info.innerHTML=`<div><h2 class=\"text-3xl md:text-4xl font-extrabold gradient-text mb-2\">${a.name}</h2><p class=\"role-text font-semibold mb-4\">${a.role}</p><p class=\"text-dark/80 leading-relaxed\">${a.bio}</p></div><div class=\"pt-6\"><a href=\"#/artists/${a.slug}\" class=\"inline-flex items-center gap-2 text-primary font-semibold hover:underline\">See more <i class=\"bi bi-arrow-right\"></i></a></div>` } const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches; let timer=prefersReduced?null:setInterval(()=>{ idx=(idx+1)%slides.length; show(idx) },4000); dots.forEach(d=>d.addEventListener('click',()=>{ const i=Number(d.getAttribute('data-idx')); idx=i; show(idx); if(timer){ clearInterval(timer); timer=setInterval(()=>{ idx=(idx+1)%slides.length; show(idx) },4000) } })) }
+        function initSignupRole(){ const container=document.getElementById('roleBtns'); const form=document.getElementById('signupForm'); const creatorOnly=document.getElementById('creatorOnly'); const clientOnly=document.getElementById('clientOnly'); if(!container) return; container.querySelectorAll('button').forEach(btn=>{ btn.addEventListener('click',()=>{ const role=btn.getAttribute('data-role'); container.querySelectorAll('button').forEach(b=>b.className='rounded-2xl p-5 border border-black/10 bg-white/70 text-left'); btn.className='rounded-2xl p-5 border border-primary bg-white text-left'; form.setAttribute('data-role', role); if(role==='creator'){ creatorOnly.classList.remove('hidden'); clientOnly.classList.add('hidden') } else { creatorOnly.classList.add('hidden'); clientOnly.classList.remove('hidden') } }) }) }
+
+        window.addEventListener('hashchange', render)
+        render()
+    </script>
+</body>
+</html>

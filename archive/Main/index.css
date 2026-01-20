@@ -1,0 +1,71 @@
+/* Base styles (pure CSS to avoid Tailwind @apply processing) */
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  background: #E2FCEF; /* honeydew */
+  color: #170F11;
+}
+
+/* Components */
+.btn-primary {
+  background: linear-gradient(90deg, #9B287B, #5C164E);
+  color: #E2FCEF;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+  transition: transform .2s ease, filter .2s ease;
+}
+.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+/* Better keyboard focus visibility */
+.btn-primary:focus-visible, a:focus-visible { outline: 3px solid rgba(155, 40, 123, 0.55); outline-offset: 3px; border-radius: 0.75rem; }
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid rgba(155, 40, 123, 0.18);
+  color: #170F11;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  transition: transform .2s ease, filter .2s ease;
+}
+.btn-secondary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+.section-padding { padding: 5rem 2rem; }
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+/* Utilities */
+.text-gradient {
+  background: linear-gradient(90deg, #9B287B, #5C164E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-artistic { background: linear-gradient(135deg, #E2FCEF 0%, #9B287B 55%, #5C164E 100%); }
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+
+/* Role label color to match theme */
+.role-text { color: #9B287B; }
+
+/* Card polish */
+.card { transition: transform .2s ease, box-shadow .2s ease; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,.12); }
+
+/* Utility: visually hidden for accessibility */
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+
+/* Themed link color */
+.theme-link { color: #9B287B; }
+.theme-link:hover { color: #5C164E; }
